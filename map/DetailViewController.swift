@@ -24,11 +24,31 @@ class DetailViewController: UIViewController, MKMapViewDelegate {
             if theTextField != nil  {
                 theTextField!.text  = location!.detailText()
                 theTextField!.adjustsFontSizeToFitWidth = true
-//                theTextField!.sizeToFit()
             }
             
-            if location!.image != nil && theImage != nil  {
-                theImage!.image = location!.image
+            if theImage != nil  {
+                if location!.image != nil   {
+                    theImage!.image = location!.image
+                }
+                else    {
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))   {
+                        var imageUrl    = NSURL(string: self.location!.imUrl)
+                        var imageData : NSData?
+                        var image : UIImage?
+                        if imageUrl != nil  {
+                            imageData   = NSData(contentsOfURL: imageUrl!)
+                        }
+                        if imageData != nil {
+                            image       = UIImage(data: imageData!)
+                        }
+                        if image != nil {
+                            self.location!.image = image!
+                            dispatch_async(dispatch_get_main_queue())   {
+                                self.theImage!.image = image!
+                            }
+                        }
+                    }
+                }
             }
             
             if theMap != nil    {

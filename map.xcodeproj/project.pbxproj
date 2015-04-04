@@ -46,7 +46,6 @@
 		1B3A58C71ACCAE59007647C7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		1B3A58C91ACDBBD4007647C7 /* HWMapMarker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HWMapMarker.png; path = map/HWMapMarker.png; sourceTree = "<group>"; };
 		1B3A58CB1ACE02E8007647C7 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		5A146E621ACF206000782A46 /* CWMapLocation */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CWMapLocation; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +95,6 @@
 				1B3A58A01ACC58F3007647C7 /* AppDelegate.swift */,
 				1B3A58A21ACC58F3007647C7 /* ViewController.swift */,
 				1B3A58C21ACC684F007647C7 /* CWMapLocation.swift */,
-				5A146E621ACF206000782A46 /* CWMapLocation */,
 				1B3A58A41ACC58F3007647C7 /* Main.storyboard */,
 				1B3A58CB1ACE02E8007647C7 /* DetailViewController.swift */,
 				1B3A58A71ACC58F3007647C7 /* Images.xcassets */,
@@ -180,6 +178,7 @@
 				TargetAttributes = {
 					1B3A589A1ACC58F3007647C7 = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = G4GBL6446W;
 					};
 					1B3A58AF1ACC58F3007647C7 = {
 						CreatedOnToolsVersion = 6.2;
@@ -359,10 +358,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = map/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -371,10 +373,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = map/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

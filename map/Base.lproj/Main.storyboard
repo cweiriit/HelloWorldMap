@@ -74,6 +74,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="uJ9-cr-reC"/>
                     <connections>
+                        <outlet property="theMap" destination="Q5H-7q-7EX" id="MVc-Ok-ELe"/>
                         <outlet property="theTable" destination="5hJ-r6-ORK" id="rZp-yZ-g78"/>
                     </connections>
                 </viewController>

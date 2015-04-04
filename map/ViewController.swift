@@ -21,21 +21,25 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         // Do any additional setup after loading the view, typically from a nib.
     }
     
+    func locationAuthorized() -> Bool   {
+        return (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedAlways ||
+                CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse)
+    }
+    
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        if status == CLAuthorizationStatus.AuthorizedAlways ||
-            status == CLAuthorizationStatus.AuthorizedWhenInUse    {
-                manager.startUpdatingLocation()
+        if locationAuthorized()    {
+            manager.startUpdatingLocation()
+            calculateDistances(nil)
+        }
+        else    {
+            theTable!.reloadData()
         }
     }
     
-    func locationManagerDidPauseLocationUpdates(manager: CLLocationManager!) {
-    }
-    
-    func locationManagerDidResumeLocationUpdates(manager: CLLocationManager!) {
-    }
-    
-    func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!) {
-        calculateDistances(newLocation)
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        if let newLocation = locations.last as? CLLocation  {
+            calculateDistances(newLocation)
+        }
     }
     
     func calculateDistances(aLocation : CLLocation?)   {
@@ -66,13 +70,9 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             }
         }
         
-        theTable?.reloadData()
-        //theTable?.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
+        self.theTable!.reloadData()
     }
     
-    func locationManager(manager: CLLocationManager!, didDetermineState state: CLRegionState, forRegion region: CLRegion!) {
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -86,6 +86,11 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
     
     func mapViewDidFinishLoadingMap(mapView: MKMapView!) {
+        self.locationManager = CLLocationManager()
+        self.locationManager!.delegate   = self
+        self.locationManager!.desiredAccuracy    = kCLLocationAccuracyKilometer
+        self.locationManager!.distanceFilter     = 1
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))   {
             var locations : [CWMapLocation]  = CWMapLocation.getLocs()
             
@@ -97,61 +102,49 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                 self.theLocationsArray.append(location)
             }
             
-            self.locationManager = CLLocationManager()
-            self.locationManager!.delegate   = self
-            self.locationManager!.desiredAccuracy    = kCLLocationAccuracyKilometer
-            self.locationManager!.distanceFilter     = 500
-            
-            if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.NotDetermined  {
-                self.locationManager!.requestWhenInUseAuthorization()
-            }
-            
-            dispatch_async(dispatch_get_main_queue())   {
-                if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedAlways ||
-                    CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse    {
-                        self.locationManager!.startUpdatingLocation()
+            if (UIDevice.currentDevice().systemVersion as NSString).floatValue < 8.0    {
+                self.locationManager!.startUpdatingLocation()
+                
+                dispatch_async(dispatch_get_main_queue())   {
+                    if self.locationAuthorized()    {
                         self.calculateDistances(nil)
+                    }
+                    else    {
+                        self.theTable!.reloadData()
+                    }
                 }
-                else    {
+            }
+            else {
+                self.locationManager!.requestWhenInUseAuthorization()
+                
+                if self.locationAuthorized()    {
+                        dispatch_async(dispatch_get_main_queue())   {
+                            self.locationManager!.startUpdatingLocation()
+                            self.calculateDistances(nil)
+                        }
+                }
+                
+                dispatch_async(dispatch_get_main_queue())   {
                     self.theTable!.reloadData()
                 }
-                
-                
             }
+            
+            
         }
     }
     
-    /*
-    func distanceTo(location : CWMapLocation) -> CLLocationDistance   {
-        if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedAlways || CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse && CLLocationManager.locationServicesEnabled()    {
-            var currentLocation = locationManager!.location
-            return location.distance(currentLocation)
-        }
-        
-        return CLLocationDistance.infinity
-    }   */
-    
-    
-    
     func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
         var location : CWMapLocation    = theLocations[view.annotation.title!]!
-        var message = location.address()
-        
-        var distMsg = location.distanceString()
-        if distMsg != nil   {
-            message += "\n" + distMsg!
-        }
-        
         performSegueWithIdentifier("pushDetail", sender: location)
     }
     
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section != 0 {
-            return 0
+        if section == 0 {
+            return theLocations.count
         }
         else    {
-            return theLocations.count
+            return 0
         }
     }
     
@@ -192,7 +185,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             location = theLocation
         }
         
-        if location != nil {
+        if location != nil  {
             if let detailVC = segue.destinationViewController as? DetailViewController  {
                 detailVC.location   = location
             }

@@ -50,10 +50,10 @@ class CWMapLocation {
         
         
         if let lastJson = jsonObj as? NSArray   {
-            /*
             dispatch_async(dispatch_get_main_queue())   {
-                fetchTask()
-            }   */
+                var locations = fetchTask()
+                
+            }
             return parseTask(lastJson)
         }
         else    {
