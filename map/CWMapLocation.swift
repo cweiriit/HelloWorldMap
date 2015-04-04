@@ -128,9 +128,11 @@ class CWMapLocation {
         return output
     }
     
-    func distance(fromLocation : CLLocation) -> CLLocationDistance {
-        var output = location().distanceFromLocation(fromLocation)
-        lastDistance    = output
+    func distance(fromLocation : CLLocation?) -> CLLocationDistance {
+        if fromLocation != nil  {
+            var output = location().distanceFromLocation(fromLocation)
+            lastDistance    = output
+        }
         return lastDistance
     }
     

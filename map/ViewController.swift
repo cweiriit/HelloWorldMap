@@ -44,7 +44,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             newLocation = locationManager!.location
         }
         for (key, location) : (String, CWMapLocation) in theLocations    {
-            location.distance(newLocation!)
+            location.distance(newLocation)
         }
         
         for var index=0; index<theLocationsArray.count; index++ {
