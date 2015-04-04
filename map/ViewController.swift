@@ -89,7 +89,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         self.locationManager = CLLocationManager()
         self.locationManager!.delegate   = self
         self.locationManager!.desiredAccuracy    = kCLLocationAccuracyKilometer
-        self.locationManager!.distanceFilter     = 1
+        self.locationManager!.distanceFilter     = 100
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))   {
             var locations : [CWMapLocation]  = CWMapLocation.getLocs()
@@ -103,9 +103,9 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             }
             
             if (UIDevice.currentDevice().systemVersion as NSString).floatValue < 8.0    {
-                self.locationManager!.startUpdatingLocation()
-                
                 dispatch_async(dispatch_get_main_queue())   {
+                    self.locationManager!.startUpdatingLocation()
+                    
                     if self.locationAuthorized()    {
                         self.calculateDistances(nil)
                     }
