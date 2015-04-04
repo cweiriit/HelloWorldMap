@@ -46,7 +46,7 @@ class CWMapLocation {
             return []
         }
         
-        var jsonObj   = NSUserDefaults.standardUserDefaults().objectForKey("com.helloworld.clintonw.map.jsonCache")
+        var jsonObj: AnyObject?   = NSUserDefaults.standardUserDefaults().objectForKey("com.helloworld.clintonw.map.jsonCache")
         
         
         if let lastJson = jsonObj as? NSArray   {

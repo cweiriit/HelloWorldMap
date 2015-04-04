@@ -19,8 +19,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Q5H-7q-7EX">
-                                <rect key="frame" x="0.0" y="64" width="600" height="405"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Q5H-7q-7EX">
+                                <rect key="frame" x="0.0" y="64" width="600" height="361"/>
                                 <connections>
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="ZMC-Rr-U1x"/>
                                 </connections>
@@ -144,23 +144,8 @@
                                     <action selector="callNumber:" destination="7Ky-QL-el8" eventType="touchUpInside" id="G2M-DU-8xy"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mm0-q3-AxO">
-                                <rect key="frame" x="400" y="416" width="200" height="136"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="136" id="LcJ-mI-DpM"/>
-                                    <constraint firstAttribute="width" constant="200" id="R9w-gg-vqg"/>
-                                </constraints>
-                                <string key="text">New York Office
-29 West 35th Street
-11th Floor
-New York, NY 10001
-5000 miles</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CKN-Tc-WgR">
-                                <rect key="frame" x="0.0" y="416" width="400" height="136"/>
+                                <rect key="frame" x="0.0" y="416" width="384" height="136"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dep-KZ-VZf">
                                         <rect key="frame" x="74" y="5" width="252" height="126"/>
@@ -177,6 +162,21 @@ New York, NY 10001
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Dep-KZ-VZf" secondAttribute="trailing" constant="5" id="ums-6M-FSy"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mm0-q3-AxO">
+                                <rect key="frame" x="384" y="416" width="200" height="136"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="136" id="LcJ-mI-DpM"/>
+                                    <constraint firstAttribute="width" constant="200" id="R9w-gg-vqg"/>
+                                </constraints>
+                                <string key="text">New York Office
+29 West 35th Street
+11th Floor
+New York, NY 10001
+5000 miles</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -185,7 +185,7 @@ New York, NY 10001
                             <constraint firstItem="rHE-dq-YPo" firstAttribute="leading" secondItem="DbB-6v-aX4" secondAttribute="leadingMargin" constant="-16" id="Gdf-do-nBP"/>
                             <constraint firstItem="rHE-dq-YPo" firstAttribute="top" secondItem="NyQ-24-oT1" secondAttribute="bottom" id="Gv8-yg-yvo"/>
                             <constraint firstItem="IvT-au-ukj" firstAttribute="leading" secondItem="DbB-6v-aX4" secondAttribute="leadingMargin" constant="-16" id="JYX-91-dYL"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Mm0-q3-AxO" secondAttribute="trailing" constant="-16" id="Ja3-t2-qOB"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Mm0-q3-AxO" secondAttribute="trailing" id="Ja3-t2-qOB"/>
                             <constraint firstItem="5Sx-Iv-gPR" firstAttribute="top" secondItem="Mm0-q3-AxO" secondAttribute="bottom" id="Lle-n1-bNS"/>
                             <constraint firstAttribute="width" secondItem="rHE-dq-YPo" secondAttribute="width" id="MDZ-2v-1uV"/>
                             <constraint firstItem="VCm-qi-OFc" firstAttribute="top" secondItem="IvT-au-ukj" secondAttribute="bottom" id="NE5-DU-YEK"/>

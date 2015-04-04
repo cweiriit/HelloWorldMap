@@ -24,7 +24,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == CLAuthorizationStatus.AuthorizedAlways ||
             status == CLAuthorizationStatus.AuthorizedWhenInUse    {
-                NSLog("Got authorization!")
                 manager.startUpdatingLocation()
         }
     }
@@ -36,7 +35,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!) {
-        NSLog("Got new location data")
         calculateDistances(newLocation)
     }
     
@@ -61,7 +59,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                     var temp2   = location2
                     theLocationsArray.removeAtIndex(indey)
                     theLocationsArray.insert(temp2, atIndex: index)
-                    NSLog("Moving \(location2.name) ahead of \(location1.name)")
                     
                     location1   = location2
                     distance1   = distance2
@@ -106,7 +103,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             self.locationManager!.distanceFilter     = 500
             
             if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.NotDetermined  {
-                NSLog("requesting location auth")
                 self.locationManager!.requestWhenInUseAuthorization()
             }
             
@@ -155,7 +151,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             return 0
         }
         else    {
-            NSLog("count: \(theLocations.count)")
             return theLocations.count
         }
     }
@@ -189,18 +184,15 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         if let annotationview = sender as? MKAnnotationView {
             let annotation  = annotationview.annotation
             location    = theLocations[annotation.title!]
-            NSLog("segue for location \(location?.name) using MKAnnotationView")
         }
         else if let cell = sender as? UITableViewCell   {
             location    = theLocations[cell.textLabel!.text!]
-            NSLog("segue for location \(location?.name) using UITableViewCell")
         }
         else if var theLocation = sender as? CWMapLocation {
             location = theLocation
         }
         
         if location != nil {
-            NSLog("location is \(location!.name)")
             if let detailVC = segue.destinationViewController as? DetailViewController  {
                 detailVC.location   = location
             }
