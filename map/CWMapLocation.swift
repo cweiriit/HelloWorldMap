@@ -25,6 +25,7 @@ class CWMapLocation {
             
             return locs
         }
+        
         var fetchTask : () -> ([CWMapLocation])    = {
             () -> [CWMapLocation] in
             var jsonURL   = "http://www.helloworld.com/helloworld_locations.json"
@@ -46,19 +47,27 @@ class CWMapLocation {
             return []
         }
         
+        var output  = fetchTask()
+        if output.count > 0 {
+            return output
+        }
+        
         var jsonObj: AnyObject?   = NSUserDefaults.standardUserDefaults().objectForKey("com.helloworld.clintonw.map.jsonCache")
-        
-        
         if let lastJson = jsonObj as? NSArray   {
             dispatch_async(dispatch_get_main_queue())   {
-                var locations = fetchTask()
-                
+                var alert   = UIAlertView(title: "Something went wrong...", message: "The location data could not be retrieved.  Displaying cached location data.", delegate: nil, cancelButtonTitle: "Okay")
+                alert.show()
             }
+            
             return parseTask(lastJson)
         }
-        else    {
-            return fetchTask()
+        
+        dispatch_async(dispatch_get_main_queue())   {
+            var alert   = UIAlertView(title: "Something went wrong...", message: "The location data could not be retrieved. Please check for connectivity and try again.", delegate: nil, cancelButtonTitle: "Okay")
+            alert.show()
         }
+        
+        return []
     }
     
     var name        : String = "(unnamed)"

@@ -85,18 +85,45 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         return output
     }
     
-    func mapViewDidFinishLoadingMap(mapView: MKMapView!) {
-        self.locationManager = CLLocationManager()
-        self.locationManager!.delegate   = self
-        self.locationManager!.desiredAccuracy    = kCLLocationAccuracyKilometer
-        self.locationManager!.distanceFilter     = 100
+    @IBAction func loadLocations(sender: AnyObject) {
+        if theMap == nil    {
+            return
+        }
+        
+        var xPos    = theMap!.frame.width/2 - 10
+        var yPos    = theMap!.frame.height/2 - 10
+        
+        var activitySuperview : UIView  = UIView(frame: CGRectMake(0, 0, theMap!.frame.width, theMap!.frame.height))
+        activitySuperview.backgroundColor   = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+        
+        var activity : UIActivityIndicatorView  = UIActivityIndicatorView(frame: CGRectMake(xPos, yPos, 20, 20))
+        activity.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        theMap!.addSubview(activitySuperview)
+        theMap!.addSubview(activity)
+        activity.hidesWhenStopped   = true
+        activity.startAnimating()
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))   {
             var locations : [CWMapLocation]  = CWMapLocation.getLocs()
             
+            dispatch_async(dispatch_get_main_queue())   {
+                activity.stopAnimating()
+                activitySuperview.removeFromSuperview()
+                activity.removeFromSuperview()
+            }
+            
+            if locations.count == 0 {
+                return
+            }
+            if let annotations = self.theMap!.annotations as? [MKAnnotation] {
+                self.theMap!.removeAnnotations(annotations)
+            }
+            
+            self.theLocations   = Dictionary()
+            self.theLocationsArray  = Array()
             for location : CWMapLocation in locations   {
                 dispatch_async(dispatch_get_main_queue())   {
-                    mapView.addAnnotation(location.annotation())
+                    self.theMap!.addAnnotation(location.annotation())
                 }
                 self.theLocations[location.name] = location
                 self.theLocationsArray.append(location)
@@ -118,10 +145,10 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                 self.locationManager!.requestWhenInUseAuthorization()
                 
                 if self.locationAuthorized()    {
-                        dispatch_async(dispatch_get_main_queue())   {
-                            self.locationManager!.startUpdatingLocation()
-                            self.calculateDistances(nil)
-                        }
+                    dispatch_async(dispatch_get_main_queue())   {
+                        self.locationManager!.startUpdatingLocation()
+                        self.calculateDistances(nil)
+                    }
                 }
                 
                 dispatch_async(dispatch_get_main_queue())   {
@@ -131,6 +158,15 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             
             
         }
+    }
+    
+    func mapViewDidFinishLoadingMap(mapView: MKMapView!) {
+        self.locationManager = CLLocationManager()
+        self.locationManager!.delegate   = self
+        self.locationManager!.desiredAccuracy    = kCLLocationAccuracyKilometer
+        self.locationManager!.distanceFilter     = 100
+
+        loadLocations(mapView)
     }
     
     func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {

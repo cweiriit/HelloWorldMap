@@ -72,7 +72,13 @@
                             <constraint firstItem="Q5H-7q-7EX" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="r57-0h-lk8"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="uJ9-cr-reC"/>
+                    <navigationItem key="navigationItem" id="uJ9-cr-reC">
+                        <barButtonItem key="rightBarButtonItem" title="Reload" id="PZH-6b-IlH">
+                            <connections>
+                                <action selector="loadLocations:" destination="vXZ-lx-hvc" id="2nJ-lV-LAE"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="theMap" destination="Q5H-7q-7EX" id="MVc-Ok-ELe"/>
                         <outlet property="theTable" destination="5hJ-r6-ORK" id="rZp-yZ-g78"/>
